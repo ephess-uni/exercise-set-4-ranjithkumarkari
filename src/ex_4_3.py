@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 try:
     from src.ex_4_0 import get_shutdown_events
@@ -11,39 +12,35 @@ except ImportError:
 
 # Use this FILENAME variable to test your function.
 FILENAME = get_data_file_path("messages.log")
-# >>>> DO NOT MODIFY CODE ABOVE <<<<
 
 
-def time_between_shutdowns(logfile):
-    """
-    Calculates the amount of time between the first and last shutdown events in a log file.
 
-    Args:
-        logfile (str): The filename of the log file.
 
-    Returns:
-        datetime.timedelta: The time difference between the first and last shutdown events.
-    """
-    # Get shutdown events from the log file
-    shutdown_events = get_shutdown_events(logfile)
+def time_between_shutdowns(file_path):
+    try:
+        # Read the log file
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
 
-    # Check if shutdown_events is empty or not in the expected format
-    if not shutdown_events or not isinstance(shutdown_events, list) or not isinstance(shutdown_events[0], dict):
-        print("Error: Unable to retrieve shutdown events.")
+        shutdown_timestamps = []
+
+        # Extract timestamps of shutdown events
+        for line in lines:
+            if 'Shutdown initiated' in line:
+                timestamp_str = line.split()[1:3]  # Extract date and time parts
+                timestamp = ' '.join(timestamp_str)  # Join date and time parts
+                shutdown_timestamps.append(logstamp_to_datetime(timestamp))
+
+        # Calculate time between shutdown events
+        time_between_shutdowns = timedelta(0)
+        for i in range(1, len(shutdown_timestamps)):
+            time_between_shutdowns += shutdown_timestamps[i] - shutdown_timestamps[i - 1]
+
+        return time_between_shutdowns
+    except FileNotFoundError:
+        print(f"File {file_path} not found.")
         return None
 
-    # Extract timestamps from shutdown events and convert to datetime objects
-    timestamps = [logstamp_to_datetime(event["date"]) for event in shutdown_events]
-
-    # Check if timestamps list is empty
-    if not timestamps:
-        print("Error: No valid timestamps found.")
-        return None
-
-    # Calculate the time difference between the first and last shutdown events
-    time_difference = max(timestamps) - min(timestamps)
-
-    return time_difference
 
 
 # >>>> The code below will call your function and print the results

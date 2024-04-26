@@ -1,24 +1,43 @@
-import os
 from datetime import timedelta
-
-try:
-    from src.ex_4_3 import time_between_shutdowns
-    from src.util import get_data_file_path
-except ImportError:
-    from ex_4_3 import time_between_shutdowns
-    from util import get_data_file_path
-
-# Use the full path to the log files for testing
-TEST_DIRECTORY = os.path.join(os.getcwd(), "tests", "data")
-DEFAULT_MESSAGES_FILE = os.path.join(TEST_DIRECTORY, "default_messages.log")
-TEST_MESSAGES_FILE = os.path.join(TEST_DIRECTORY, "test_messages.log")
+from textwrap import dedent
+import pytest
+from src.ex_4_3 import time_between_shutdowns
 
 
-def test___time_between_shutdowns___returns_timedelta_type():
-    assert isinstance(time_between_shutdowns(DEFAULT_MESSAGES_FILE), timedelta)
-    assert isinstance(time_between_shutdowns(TEST_MESSAGES_FILE), timedelta)
+@pytest.mark.parametrize(
+    'logfile',
+    [
+        'default_messages',
+        'test_messages',
+    ]
+)
+def test__time_between_shutdowns__returns_timedelta_type(logfile, feedback, request):
+    md = dedent(
+        """
+        # Feedback
+        Make sure that your function returns a datetime.timedelta object.
+        """
+    )
+    feedback(md)
+    assert isinstance(time_between_shutdowns(request.getfixturevalue(logfile)), timedelta)
 
 
-def test___time_between_shutdowns___returns_correct_timedelta():
-    assert time_between_shutdowns(DEFAULT_MESSAGES_FILE) == timedelta(seconds=211)
-    assert time_between_shutdowns(TEST_MESSAGES_FILE) == timedelta(days=1, seconds=211)
+@pytest.mark.parametrize(
+    'logfile,expected',
+    [
+        ('default_messages', 'timedelta(seconds=211)'),
+        ('test_messages', 'timedelta(days=1, seconds=211)'),
+    ]
+)
+def test__time_between_shutdowns__returns_correct_timedelta(logfile, expected, feedback, request):
+    md = dedent(
+        """
+        # Feedback
+        Make sure that the value of the timedelta object is correct.  For the default logfile, 
+        this is 211 seconds.  
+
+        Keep in mind that your function is tested with different inputs. 
+        """
+    )
+    feedback(md)
+    assert time_between_shutdowns(request.getfixturevalue(logfile)) == eval(expected)
