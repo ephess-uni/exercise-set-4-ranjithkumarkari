@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 
 try:
     from src.ex_4_0 import get_shutdown_events
@@ -12,6 +11,7 @@ except ImportError:
 
 # Use this FILENAME variable to test your function.
 FILENAME = get_data_file_path("messages.log")
+# >>>> DO NOT MODIFY CODE ABOVE <<<<
 
 
 def time_between_shutdowns(logfile):
@@ -27,25 +27,23 @@ def time_between_shutdowns(logfile):
     # Get shutdown events from the log file
     shutdown_events = get_shutdown_events(logfile)
 
-    # Check if shutdown_events is empty
-    if not shutdown_events:
-        return timedelta()  # Return zero timedelta if no shutdown events are found
+    # Check if shutdown_events is empty or not in the expected format
+    if not shutdown_events or not isinstance(shutdown_events, list) or not isinstance(shutdown_events[0], dict):
+        print("Error: Unable to retrieve shutdown events.")
+        return None
 
-    try:
-        # Convert the date field of the first shutdown event to a datetime object
-        first_shutdown_timestamp = logstamp_to_datetime(shutdown_events[0])
+    # Extract timestamps from shutdown events and convert to datetime objects
+    timestamps = [logstamp_to_datetime(event["date"]) for event in shutdown_events]
 
-        # Convert the date field of the last shutdown event to a datetime object
-        last_shutdown_timestamp = logstamp_to_datetime(shutdown_events[-1])
+    # Check if timestamps list is empty
+    if not timestamps:
+        print("Error: No valid timestamps found.")
+        return None
 
-        # Compute the difference in time between the two events
-        time_difference = last_shutdown_timestamp - first_shutdown_timestamp
+    # Calculate the time difference between the first and last shutdown events
+    time_difference = max(timestamps) - min(timestamps)
 
-        return time_difference
-
-    except ValueError as e:
-        print(f"Error: {e}")
-        return timedelta()  # Return zero timedelta if there's an error
+    return time_difference
 
 
 # >>>> The code below will call your function and print the results

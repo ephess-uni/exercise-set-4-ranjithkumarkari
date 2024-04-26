@@ -28,3 +28,4 @@ if __name__ == "__main__":
     # Test date string with correct format
     test_date = '2014-07-03T23:31:22'
     print(f'{logstamp_to_datetime(test_date)=}')
+
