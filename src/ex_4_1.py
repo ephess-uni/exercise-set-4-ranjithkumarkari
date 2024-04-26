@@ -1,4 +1,3 @@
-""" ex_4_1.py """
 import os
 
 try:
@@ -15,9 +14,22 @@ FILENAME = get_data_file_path('messages.log')
 
 def num_shutdowns(logfile):
     """
-    Your docstring here.  Replace the pass keyword below with your implementation.
+    Count the number of shutdown events present in the file.
+
+    Args:
+    - logfile (str): The path to the log file.
+
+    Returns:
+    - int: The number of shutdown events present in the file.
     """
-    pass
+    # Get the shutdown events from the log file
+    shutdown_events = get_shutdown_events(logfile)
+    
+    # Count the number of shutdown events
+    num_shutdowns = len(shutdown_events)
+    
+    # Return the count of shutdown events
+    return num_shutdowns
 
 
 # >>>> The code below will call your function and print the results

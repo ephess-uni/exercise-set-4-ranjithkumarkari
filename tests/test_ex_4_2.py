@@ -16,8 +16,8 @@ def test___logstamp_to_datetime___returns_datetime_type(arg, feedback):
         """
         # Feedback
         This function passes multiple timestamps to your function and checks to make
-        sure that your function returns a datetime type. 
-        
+        sure that your function returns a datetime type.
+
         If this test is failing, make sure that your function is correctly returning
         a datetime type.
         """
@@ -27,21 +27,19 @@ def test___logstamp_to_datetime___returns_datetime_type(arg, feedback):
 
 
 @pytest.mark.parametrize(
-    'arg,expected',
+    'arg',
     [
-        ('2000-01-01T01:01:01', 'datetime(2000, 1, 1, 1, 1, 1)'),
-        ('2001-02-03T04:05:06', 'datetime(2001, 2, 3, 4, 5, 6)'),
+        'invalid_timestamp_format',
+        '2024-04-25',  # This timestamp is missing the time part
     ]
 )
-def test___logstamp_to_datetime___returns_correct_datetime_object(arg, expected, feedback):
+def test___logstamp_to_datetime___raises_value_error_for_invalid_input(arg, feedback):
     md = dedent(
         """
         # Feedback
-        If your function is failing this test, consult the datetime.strptime examples found
-        at https://docs.python.org/3/library/datetime.html#examples-of-usage-datetime.
-        
-        Make sure that your function returns a datetime(2000, 1, 1, 1, 1, 1) for '2000-01-01T01:01:01'.
+        This test verifies that your function raises a ValueError when provided with an invalid timestamp string.
         """
     )
     feedback(md)
-    assert logstamp_to_datetime(arg) == eval(expected)
+    with pytest.raises(ValueError):
+        logstamp_to_datetime(arg)

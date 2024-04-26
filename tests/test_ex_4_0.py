@@ -18,6 +18,7 @@ def test___get_shutdown_events___returns_list(logfile,feedback, request):
     )
     feedback(md)
 
+
     assert isinstance(get_shutdown_events(request.getfixturevalue(logfile)), list)
 
 
