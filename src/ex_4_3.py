@@ -16,15 +16,7 @@ FILENAME = get_data_file_path("messages.log")
 # >>>> DO NOT MODIFY CODE ABOVE <<<<
 
 def time_between_shutdowns(logfile):
-    """
-    Returns the amount of time between the first and last shutdowns in the log file.
 
-    Args:
-        logfile (str): The path to the log file.
-
-    Returns:
-        datetime.timedelta: The amount of time between the first and last shutdowns.
-    """
     shutdown_events = get_shutdown_events(logfile)
 
     if not shutdown_events:  # If no shutdown events found

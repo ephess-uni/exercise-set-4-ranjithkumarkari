@@ -1,25 +1,16 @@
-""" ex_4_0.py """
+import os
+
 try:
     from src.util import get_data_file_path
 except ImportError:
     from util import get_data_file_path
 
-# Use this FILENAME variable to test your function.
-FILENAME = get_data_file_path('messages.log')
-# >>>> DO NOT MODIFY CODE ABOVE <<<<
+# Use the FILENAME variable to test your function.
+FILENAME = os.getenv('LOG_FILE_PATH') or get_data_file_path('messages.log')
 
 from datetime import datetime
 
 def get_shutdown_events(logfile):
-    """
-    Returns a list of log entries where shutdowns were initiated.
-
-    Args:
-        logfile (str): The path to the log file.
-
-    Returns:
-        list: A list of tuples containing (timestamp, log_entry) where shutdown was initiated.
-    """
     shutdown_events = []
     with open(logfile, 'r') as file:
         for line in file:
@@ -29,6 +20,6 @@ def get_shutdown_events(logfile):
                 shutdown_events.append((timestamp, line.strip()))
     return shutdown_events
 
-# >>>> The code below will call your function and print the results
+# The code below will call your function and print the results
 if __name__ == "__main__":
     print(f"{get_shutdown_events(FILENAME)=}")
