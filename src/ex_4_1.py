@@ -1,4 +1,3 @@
-""" ex_4_1.py """
 import os
 
 try:
@@ -12,9 +11,26 @@ except ImportError:
 FILENAME = get_data_file_path('messages.log')
 # >>>> DO NOT MODIFY CODE ABOVE <<<<
 
+
 def num_shutdowns(logfile):
+    """
+    Count the number of shutdown events present in the file.
+
+    Args:
+    - logfile (str): The path to the log file.
+
+    Returns:
+    - int: The number of shutdown events present in the file.
+    """
+    # Get the shutdown events from the log file
     shutdown_events = get_shutdown_events(logfile)
-    return len(shutdown_events) // 2  # Divide by 2 since each shutdown event has two entries
+    
+    # Count the number of shutdown events
+    num_shutdowns = len(shutdown_events)
+    
+    # Return the count of shutdown events
+    return num_shutdowns
+
 
 # >>>> The code below will call your function and print the results
 if __name__ == "__main__":

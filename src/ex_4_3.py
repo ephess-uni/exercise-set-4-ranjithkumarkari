@@ -35,3 +35,4 @@ def time_between_shutdowns(logfile):
 if __name__ == "__main__":
     print(f'{time_between_shutdowns(FILENAME)=}')
 
+
