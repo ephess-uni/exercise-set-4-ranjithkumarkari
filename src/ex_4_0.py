@@ -8,13 +8,26 @@ except ImportError:
 FILENAME = get_data_file_path('messages.log')
 # >>>> DO NOT MODIFY CODE ABOVE <<<<
 
+from datetime import datetime
 
 def get_shutdown_events(logfile):
     """
-    Your docstring here.  Replace the pass keyword below with your implementation
-    """
-    pass
+    Returns a list of log entries where shutdowns were initiated.
 
+    Args:
+        logfile (str): The path to the log file.
+
+    Returns:
+        list: A list of tuples containing (timestamp, log_entry) where shutdown was initiated.
+    """
+    shutdown_events = []
+    with open(logfile, 'r') as file:
+        for line in file:
+            if "Shutdown initiated" in line:
+                timestamp_str = line.split()[1]  # Extracting timestamp string
+                timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S")
+                shutdown_events.append((timestamp, line.strip()))
+    return shutdown_events
 
 # >>>> The code below will call your function and print the results
 if __name__ == "__main__":

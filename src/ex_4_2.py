@@ -1,15 +1,21 @@
-""" ex_4_2.py """
 from datetime import datetime
-
 
 def logstamp_to_datetime(datestr):
     """
-    Your docstring here.  Replace the pass keyword below with your implementation.
+    Parses the input date string in the format 'YYYY-MM-DDTHH:MM:SS' and returns a datetime.datetime object.
+
+    Args:
+        datestr (str or datetime.datetime): Input date string in the format 'YYYY-MM-DDTHH:MM:SS' or a datetime object.
+
+    Returns:
+        datetime.datetime: A datetime object representing the parsed date and time.
     """
-    pass
+    if isinstance(datestr, datetime):  # Check if the input is already a datetime object
+        return datestr
 
+    return datetime.strptime(datestr, '%Y-%m-%dT%H:%M:%S')
 
-# >>>> The code below will call your function and print the results
-if __name__ == "__main__":
-    test_date = '2022-12-01T01:02:03'
-    print(f'{logstamp_to_datetime(test_date)=}')
+# Example usage:
+# date_str = '2014-07-03T23:31:22'
+# datetime_obj = logstamp_to_datetime(date_str)
+# print(datetime_obj)
