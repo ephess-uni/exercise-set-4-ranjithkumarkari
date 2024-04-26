@@ -12,10 +12,9 @@ FILENAME = get_data_file_path('messages.log')
 # >>>> DO NOT MODIFY CODE ABOVE <<<<
 
 def num_shutdowns(logfile):
-
     shutdown_events = get_shutdown_events(logfile)
     return len(shutdown_events) // 2  # Divide by 2 since each shutdown event has two entries
 
 # >>>> The code below will call your function and print the results
 if __name__ == "__main__":
-    print(f'{num_shutdowns(FILENAME)=}')  
+    print(f'{num_shutdowns(FILENAME)=}')

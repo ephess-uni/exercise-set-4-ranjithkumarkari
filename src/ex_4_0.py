@@ -10,7 +10,6 @@ FILENAME = get_data_file_path('messages.log')
 from datetime import datetime
 
 def get_shutdown_events(logfile):
-
     shutdown_events = []
     with open(logfile, 'r') as file:
         for line in file:
